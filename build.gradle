@@ -1421,7 +1421,7 @@ if (!project.getGradle().startParameter.isOffline() && !Boolean.getBoolean('DISA
 }
 
 static URL availableBuildScriptUrl() {
-    new URL("https://raw.githubusercontent.com/GregTechCEu/Buildscripts/master/build.gradle")
+    new URL("https://raw.githubusercontent.com/GregTechCEu/Buildscripts/refs/heads/master/build.gradle")
 }
 
 static URL availableSettingsGradleUrl() {
