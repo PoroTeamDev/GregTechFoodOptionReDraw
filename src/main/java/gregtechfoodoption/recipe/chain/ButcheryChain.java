@@ -1,16 +1,15 @@
 package gregtechfoodoption.recipe.chain;
 
-import static gregtech.api.recipes.RecipeMaps.*;
 import static gregtechfoodoption.item.GTFOMetaItem.*;
+import static gregtechfoodoption.machines.GTFOTileEntities.MEAT_PROCESSING_STATION;
 
+import gregtech.api.recipes.ModHandler;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-import gregtech.api.recipes.ModHandler;
-import gregtech.api.unification.material.Materials;
 import gregtechfoodoption.GTFOConfig;
-import gregtechfoodoption.recipe.GTFORecipeMaps;
+import gregtechfoodoption.GTFOMaterialHandler;
 
 public class ButcheryChain {
 
@@ -19,63 +18,88 @@ public class ButcheryChain {
             return;
         }
 
-        int time = GTFOConfig.gtfoButcheryConfig.carcassProcessingTime;
         int meatMult = GTFOConfig.gtfoButcheryConfig.carcassMeatMultiplier;
 
-        // ===== РАЗДЕЛКА В CUISINE ASSEMBLER =====
-
-        // Говяжья туша
-        GTFORecipeMaps.CUISINE_ASSEMBLER_RECIPES.recipeBuilder()
+        MEAT_PROCESSING_STATION.getRecipeMap().recipeBuilder()
                 .inputs(CARCASS_BEEF.getStackForm())
-                .fluidInputs(Materials.Water.getFluid(1000))
-                .duration(time)
-                .EUt(16)
-                .outputs(new ItemStack(Items.BEEF, 3 * meatMult))
-                .output(new ItemStack(Items.LEATHER, 1).getItem())
+                .duration(200)
+                .EUt(30)
+                .outputs(
+                        new ItemStack(Items.BEEF, 6 * meatMult),
+                        new ItemStack(Items.BEEF, 4 * meatMult),
+                        new ItemStack(Items.LEATHER, 2),
+                        new ItemStack(Items.BONE, 8),
+                        new ItemStack(Items.BONE, 4),
+                        GTFOMaterialHandler.Fat.getItemStack(8),
+                        new ItemStack(Items.BEEF, 2 * meatMult),
+                        GTFOMaterialHandler.ToughMeat.getItemStack(4),
+                        ItemStack.EMPTY)
                 .buildAndRegister();
 
-        // Свиная туша
-        GTFORecipeMaps.CUISINE_ASSEMBLER_RECIPES.recipeBuilder()
+        MEAT_PROCESSING_STATION.getRecipeMap().recipeBuilder()
                 .inputs(CARCASS_PORK.getStackForm())
-                .fluidInputs(Materials.Water.getFluid(1000))
-                .duration(time)
-                .EUt(16)
-                .outputs(new ItemStack(Items.PORKCHOP, 3 * meatMult))
-                .output(new ItemStack(Items.LEATHER, 1).getItem())
+                .duration(200)
+                .EUt(30)
+                .outputs(
+                        new ItemStack(Items.PORKCHOP, 6 * meatMult),
+                        new ItemStack(Items.PORKCHOP, 4 * meatMult),
+                        new ItemStack(Items.LEATHER, 1),
+                        new ItemStack(Items.BONE, 6),
+                        new ItemStack(Items.BONE, 3),
+                        GTFOMaterialHandler.Fat.getItemStack(10),
+                        new ItemStack(Items.PORKCHOP, 2 * meatMult),
+                        GTFOMaterialHandler.ToughMeat.getItemStack(3),
+                        ItemStack.EMPTY)
                 .buildAndRegister();
 
-        // Куриная туша
-        GTFORecipeMaps.CUISINE_ASSEMBLER_RECIPES.recipeBuilder()
+        MEAT_PROCESSING_STATION.getRecipeMap().recipeBuilder()
                 .inputs(CARCASS_CHICKEN.getStackForm())
-                .fluidInputs(Materials.Water.getFluid(1000))
-                .duration(time)
+                .duration(100)
                 .EUt(16)
-                .outputs(new ItemStack(Items.CHICKEN, 3 * meatMult))
-                .output(new ItemStack(Items.FEATHER, 4).getItem())
+                .outputs(
+                        new ItemStack(Items.CHICKEN, 4 * meatMult),
+                        new ItemStack(Items.CHICKEN, 2 * meatMult),
+                        new ItemStack(Items.FEATHER, 8),
+                        new ItemStack(Items.BONE, 4),
+                        GTFOMaterialHandler.Fat.getItemStack(4),
+                        ItemStack.EMPTY,
+                        ItemStack.EMPTY,
+                        ItemStack.EMPTY,
+                        ItemStack.EMPTY)
                 .buildAndRegister();
 
-        // Баранина
-        GTFORecipeMaps.CUISINE_ASSEMBLER_RECIPES.recipeBuilder()
+        MEAT_PROCESSING_STATION.getRecipeMap().recipeBuilder()
                 .inputs(CARCASS_MUTTON.getStackForm())
-                .fluidInputs(Materials.Water.getFluid(1000))
-                .duration(time)
-                .EUt(16)
-                .outputs(new ItemStack(Items.MUTTON, 3 * meatMult))
-                .output(new ItemStack(Items.LEATHER, 1).getItem())
+                .duration(200)
+                .EUt(30)
+                .outputs(
+                        new ItemStack(Items.MUTTON, 6 * meatMult),
+                        new ItemStack(Items.MUTTON, 4 * meatMult),
+                        new ItemStack(Items.LEATHER, 2),
+                        new ItemStack(Items.BONE, 6),
+                        new ItemStack(Items.BONE, 3),
+                        GTFOMaterialHandler.Fat.getItemStack(8),
+                        new ItemStack(Items.MUTTON, 2 * meatMult),
+                        GTFOMaterialHandler.ToughMeat.getItemStack(3),
+                        ItemStack.EMPTY)
                 .buildAndRegister();
 
-        // Кролик
-        GTFORecipeMaps.CUISINE_ASSEMBLER_RECIPES.recipeBuilder()
+        MEAT_PROCESSING_STATION.getRecipeMap().recipeBuilder()
                 .inputs(CARCASS_RABBIT.getStackForm())
-                .fluidInputs(Materials.Water.getFluid(1000))
-                .duration(time)
+                .duration(100)
                 .EUt(16)
-                .outputs(new ItemStack(Items.RABBIT, 2 * meatMult))
-                .output(new ItemStack(Items.RABBIT_HIDE, 2).getItem())
+                .outputs(
+                        new ItemStack(Items.RABBIT, 4 * meatMult),
+                        new ItemStack(Items.RABBIT, 2 * meatMult),
+                        new ItemStack(Items.RABBIT_HIDE, 2),
+                        new ItemStack(Items.BONE, 3),
+                        GTFOMaterialHandler.Fat.getItemStack(3),
+                        ItemStack.EMPTY,
+                        ItemStack.EMPTY,
+                        ItemStack.EMPTY,
+                        ItemStack.EMPTY)
                 .buildAndRegister();
 
-        // ===== РУЧНАЯ РАЗДЕЛКА (КРАФТ) =====
-        // Получаем нож как ItemStack (приводим IGTTool к Item)
         ItemStack knife = new ItemStack((Item) BUTCHERY_KNIFE_HV);
 
         ModHandler.addShapelessRecipe("gtfo_butchery_beef_hand",

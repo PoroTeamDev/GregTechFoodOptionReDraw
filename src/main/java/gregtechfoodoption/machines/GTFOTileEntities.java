@@ -4,6 +4,7 @@ import static gregtech.common.metatileentities.MetaTileEntities.*;
 
 import java.util.function.Function;
 
+import gregtechfoodoption.machines.multiblock.*;
 import net.minecraft.util.ResourceLocation;
 
 import gregtech.api.GTValues;
@@ -14,10 +15,6 @@ import gregtechfoodoption.GregTechFoodOption;
 import gregtechfoodoption.client.GTFOClientHandler;
 import gregtechfoodoption.item.GTFOSimpleMachineMetaTileEntity;
 import gregtechfoodoption.machines.farmer.MetaTileEntityFarmer;
-import gregtechfoodoption.machines.multiblock.MetaTileEntityBakingOven;
-import gregtechfoodoption.machines.multiblock.MetaTileEntityElectricBakingOven;
-import gregtechfoodoption.machines.multiblock.MetaTileEntityGreenhouse;
-import gregtechfoodoption.machines.multiblock.MetaTileEntitySteamBakingOven;
 import gregtechfoodoption.machines.multiblock.kitchen.MetaTileEntityKitchen;
 import gregtechfoodoption.recipe.GTFORecipeMaps;
 
@@ -41,6 +38,8 @@ public class GTFOTileEntities {
     public static MetaTileEntitySteamBakingOven STEAM_BAKING_OVEN;
     public static MetaTileEntityGreenhouse GREENHOUSE;
     public static MetaTileEntityKitchen KITCHEN;
+
+    public static MetaTileEntityMeatProcessingStation MEAT_PROCESSING_STATION;
 
     public static void init() {
         /*
@@ -138,6 +137,9 @@ public class GTFOTileEntities {
                 GTUtility.hvCappedTankSizeFunction);
 
         KITCHEN = registerMetaTileEntity(8581, new MetaTileEntityKitchen(location("kitchen")));
+
+        MEAT_PROCESSING_STATION = registerMetaTileEntity(8582,
+                new MetaTileEntityMeatProcessingStation(location("meat_processing_station")));
     }
 
     public static ResourceLocation location(String name) {
