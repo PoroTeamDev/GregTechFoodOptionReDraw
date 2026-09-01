@@ -1248,3 +1248,16 @@ gregtechfoodoption.top.crop_unharvestable=Crop cannot be harvested
 gregtechfoodoption.top.seed_harvestable=Seed may be harvested
 gregtechfoodoption.top.seed_unharvestable=Seed cannot be harvested
 
+metaitem.component.carcass.name=Carcass
+metaitem.component.carcass_beef.name=Beef Carcass
+metaitem.component.carcass_pork.name=Pork Carcass
+metaitem.component.carcass_chicken.name=Chicken Carcass
+metaitem.component.carcass_mutton.name=Mutton Carcass
+metaitem.component.carcass_rabbit.name=Rabbit Carcass
+
+gtfo.config.gtfoButcheryConfig.enableButcheryMode=Enable Butchery Mode
+gtfo.config.gtfoButcheryConfig.enableButcheryMode.tooltip=Animals drop carcasses instead of standard drops when killed with a Butchery Knife
+gtfo.config.gtfoButcheryConfig.carcassProcessingTime=Carcass Processing Time
+gtfo.config.gtfoButcheryConfig.carcassProcessingTime.tooltip=Time in ticks to process a carcass in the Cuisine Assembler
+gtfo.config.gtfoButcheryConfig.carcassMeatMultiplier=Meat Multiplier
+gtfo.config.gtfoButcheryConfig.carcassMeatMultiplier.tooltip=Multiplier for meat output from carcass processing

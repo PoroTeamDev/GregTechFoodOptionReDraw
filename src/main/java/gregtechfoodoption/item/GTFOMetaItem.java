@@ -424,6 +424,14 @@ public class GTFOMetaItem extends MetaItem<GTFOMetaItem.GTFOMetaValueItem> imple
     public static MetaItem<?>.MetaValueItem VIBRANT_CAPLET;
     public static MetaItem<?>.MetaValueItem SANDWICH_VIBRANT;
 
+    //butchery update
+    public static MetaItem<?>.MetaValueItem CARCASS;
+    public static MetaItem<?>.MetaValueItem CARCASS_BEEF;
+    public static MetaItem<?>.MetaValueItem CARCASS_PORK;
+    public static MetaItem<?>.MetaValueItem CARCASS_CHICKEN;
+    public static MetaItem<?>.MetaValueItem CARCASS_MUTTON;
+    public static MetaItem<?>.MetaValueItem CARCASS_RABBIT;
+
     public GTFOMetaItem() {
         super((short) 0);
     }
@@ -1381,6 +1389,22 @@ public class GTFOMetaItem extends MetaItem<GTFOMetaItem.GTFOMetaValueItem> imple
             FOUR_SMOGUS = smores[6];
             HEART_SMOGUS = smores[7];
         }
+
+        //Butcher update
+        CARCASS = addItem(360, "component.carcass").blacklistKitchen()
+                .addComponents(new GTFOFoodStats(0, 0, false, true)
+                        .setEatingDuration(100))
+                .setMaxStackSize(16);
+        CARCASS_BEEF = addItem(361, "component.carcass_beef").blacklistKitchen()
+                .setMaxStackSize(16);
+        CARCASS_PORK = addItem(362, "component.carcass_pork").blacklistKitchen()
+                .setMaxStackSize(16);
+        CARCASS_CHICKEN = addItem(363, "component.carcass_chicken").blacklistKitchen()
+                .setMaxStackSize(16);
+        CARCASS_MUTTON = addItem(364, "component.carcass_mutton").blacklistKitchen()
+                .setMaxStackSize(16);
+        CARCASS_RABBIT = addItem(365, "component.carcass_rabbit").blacklistKitchen()
+                .setMaxStackSize(16);
     }
 
     @Override

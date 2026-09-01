@@ -6,6 +6,9 @@ import net.minecraftforge.common.config.Config;
 
 public class GTFOConfig {
 
+    @Config.Comment("Butchery Mechanics")
+    public static GTFOButcheryConfig gtfoButcheryConfig = new GTFOButcheryConfig();
+
     @Config.Comment("Show tooltips on shift?")
     public static boolean showTooltipsOnShift = false;
 
@@ -38,6 +41,21 @@ public class GTFOConfig {
 
     @Config.Comment("Miscellaneous features for GTFO.")
     public static GTFOMiscConfig gtfoMiscConfig = new GTFOMiscConfig();
+
+    public static class GTFOButcheryConfig {
+        @Config.Comment("Enable butchery mode: animals drop carcasses instead of standard drops, using a butchery knife")
+        @Config.RequiresMcRestart
+        public boolean enableButcheryMode = false;
+
+        @Config.Comment("Carcass processing time (in ticks) in the Cuisine Assembler")
+        public int carcassProcessingTime = 100;
+
+        @Config.Comment("Amount of meat dropped from a carcass (multiplier)")
+        public int carcassMeatMultiplier = 2;
+
+        @Config.Comment("Chance to drop bones from a carcass (0 = no bones, 100 = always)")
+        public int carcassBoneChance = 60;
+    }
 
     public static class GTFOChainsConfig {
         /*
