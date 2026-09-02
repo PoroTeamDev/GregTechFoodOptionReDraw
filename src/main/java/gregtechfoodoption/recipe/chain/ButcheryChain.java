@@ -3,9 +3,14 @@ package gregtechfoodoption.recipe.chain;
 import static gregtechfoodoption.item.GTFOMetaItem.*;
 import static gregtechfoodoption.machines.GTFOTileEntities.MEAT_PROCESSING_STATION;
 
+import gregtech.api.items.toolitem.ItemGTTool;
+
 import gregtech.api.recipes.ModHandler;
+import gregtech.api.unification.OreDictUnifier;
+import gregtech.api.unification.material.Materials;
+import gregtech.api.unification.ore.OrePrefix;
+import gregtechfoodoption.item.GTFOMetaItem;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 import gregtechfoodoption.GTFOConfig;
@@ -34,6 +39,7 @@ public class ButcheryChain {
                         new ItemStack(Items.BEEF, 2 * meatMult),
                         GTFOMaterialHandler.ToughMeat.getItemStack(4),
                         ItemStack.EMPTY)
+                .fluidOutputs(GTFOMaterialHandler.Blood.getFluid(1000))
                 .buildAndRegister();
 
         MEAT_PROCESSING_STATION.getRecipeMap().recipeBuilder()
@@ -50,6 +56,7 @@ public class ButcheryChain {
                         new ItemStack(Items.PORKCHOP, 2 * meatMult),
                         GTFOMaterialHandler.ToughMeat.getItemStack(3),
                         ItemStack.EMPTY)
+                .fluidOutputs(GTFOMaterialHandler.Blood.getFluid(800))
                 .buildAndRegister();
 
         MEAT_PROCESSING_STATION.getRecipeMap().recipeBuilder()
@@ -66,6 +73,7 @@ public class ButcheryChain {
                         ItemStack.EMPTY,
                         ItemStack.EMPTY,
                         ItemStack.EMPTY)
+                .fluidOutputs(GTFOMaterialHandler.Blood.getFluid(300))
                 .buildAndRegister();
 
         MEAT_PROCESSING_STATION.getRecipeMap().recipeBuilder()
@@ -82,6 +90,7 @@ public class ButcheryChain {
                         new ItemStack(Items.MUTTON, 2 * meatMult),
                         GTFOMaterialHandler.ToughMeat.getItemStack(3),
                         ItemStack.EMPTY)
+                .fluidOutputs(GTFOMaterialHandler.Blood.getFluid(700))
                 .buildAndRegister();
 
         MEAT_PROCESSING_STATION.getRecipeMap().recipeBuilder()
@@ -98,33 +107,34 @@ public class ButcheryChain {
                         ItemStack.EMPTY,
                         ItemStack.EMPTY,
                         ItemStack.EMPTY)
+                .fluidOutputs(GTFOMaterialHandler.Blood.getFluid(200))
                 .buildAndRegister();
 
-        ItemStack knife = new ItemStack((Item) BUTCHERY_KNIFE_HV);
-
         ModHandler.addShapelessRecipe("gtfo_butchery_beef_hand",
-                new ItemStack(Items.BEEF, 2 * meatMult),
+                new ItemStack(Items.BEEF, 6 * meatMult),
                 CARCASS_BEEF,
-                knife);
-
+                "craftingToolKnife"
+        );
         ModHandler.addShapelessRecipe("gtfo_butchery_pork_hand",
-                new ItemStack(Items.PORKCHOP, 2 * meatMult),
+                new ItemStack(Items.PORKCHOP, 5 * meatMult),
                 CARCASS_PORK,
-                knife);
-
-        ModHandler.addShapelessRecipe("gtfo_butchery_chicken_hand",
-                new ItemStack(Items.CHICKEN, 2 * meatMult),
-                CARCASS_CHICKEN,
-                knife);
-
+                "craftingToolKnife"
+        );
         ModHandler.addShapelessRecipe("gtfo_butchery_mutton_hand",
-                new ItemStack(Items.MUTTON, 2 * meatMult),
+                new ItemStack(Items.MUTTON, 5 * meatMult),
                 CARCASS_MUTTON,
-                knife);
-
+                "craftingToolKnife"
+        );
+        ModHandler.addShapelessRecipe("gtfo_butchery_chicken_hand",
+                new ItemStack(Items.CHICKEN, 3 * meatMult),
+                CARCASS_CHICKEN,
+                "craftingToolKnife"
+        );
         ModHandler.addShapelessRecipe("gtfo_butchery_rabbit_hand",
                 new ItemStack(Items.RABBIT, 2 * meatMult),
                 CARCASS_RABBIT,
-                knife);
+                "craftingToolKnife"
+        );
+
     }
 }

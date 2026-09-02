@@ -6,7 +6,7 @@ import java.util.List;
 
 import javax.annotation.Nullable;
 
-import gregtech.api.recipes.RecipeMap;
+import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
@@ -15,6 +15,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundEvent;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.Style;
 import net.minecraft.util.text.TextComponentTranslation;
@@ -24,25 +25,30 @@ import net.minecraft.world.World;
 
 import org.jetbrains.annotations.NotNull;
 
-import codechicken.lib.render.CCRenderState;
-import codechicken.lib.render.pipeline.IVertexOperation;
-import codechicken.lib.vec.Matrix4;
 import gregtech.api.capability.GregtechTileCapabilities;
 import gregtech.api.capability.IControllable;
 import gregtech.api.capability.impl.MultiblockRecipeLogic;
 import gregtech.api.gui.GuiTextures;
 import gregtech.api.gui.ModularUI;
 import gregtech.api.gui.resources.TextureArea;
-import gregtech.api.gui.widgets.*;
+import gregtech.api.gui.widgets.AdvancedTextWidget;
+import gregtech.api.gui.widgets.ImageCycleButtonWidget;
+import gregtech.api.gui.widgets.ImageWidget;
+import gregtech.api.gui.widgets.IndicatorImageWidget;
+import gregtech.api.gui.widgets.ProgressWidget;
 import gregtech.api.metatileentity.MetaTileEntity;
 import gregtech.api.metatileentity.interfaces.IGregTechTileEntity;
-import gregtech.api.metatileentity.multiblock.*;
+import gregtech.api.metatileentity.multiblock.IMultiblockPart;
+import gregtech.api.metatileentity.multiblock.MultiblockAbility;
+import gregtech.api.metatileentity.multiblock.RecipeMapMultiblockController;
 import gregtech.api.pattern.BlockPattern;
 import gregtech.api.pattern.FactoryBlockPattern;
+import gregtech.api.recipes.RecipeMap;
 import gregtech.api.recipes.builders.SimpleRecipeBuilder;
 import gregtech.api.util.RelativeDirection;
 import gregtech.api.util.TextComponentUtil;
 import gregtech.client.renderer.ICubeRenderer;
+import gregtech.common.blocks.BlockCleanroomCasing;
 import gregtech.core.sound.GTSoundEvents;
 import gregtechfoodoption.block.GTFOMetalCasing;
 import gregtechfoodoption.client.GTFOClientHandler;
@@ -52,10 +58,7 @@ public class MetaTileEntityMeatProcessingStation extends RecipeMapMultiblockCont
 
     private static final RecipeMap<SimpleRecipeBuilder> MEAT_PROCESSING_RECIPES = new RecipeMap<>(
             "meat_processing",
-            1,
-            9,
-            0,
-            0,
+            1, 9, 0, 1,
             new SimpleRecipeBuilder(),
             false
     )
@@ -64,7 +67,7 @@ public class MetaTileEntityMeatProcessingStation extends RecipeMapMultiblockCont
             .setProgressBar(GuiTextures.PROGRESS_BAR_SLICE, ProgressWidget.MoveType.HORIZONTAL);
 
     private int processedCount = 0;
-    private int totalProcessed = 0; 
+    private boolean isInCleanroom = false;
 
     public MetaTileEntityMeatProcessingStation(ResourceLocation metaTileEntityId) {
         super(metaTileEntityId, MEAT_PROCESSING_RECIPES);
@@ -82,7 +85,27 @@ public class MetaTileEntityMeatProcessingStation extends RecipeMapMultiblockCont
                 .aisle("XXX", "YXX", "XXX")
                 .aisle("XXX", "X#X", "XXX")
                 .aisle("XXX", "XXX", "XXX")
-                .where('X', states(getCasingState()).setMinGlobalLimited(10).or(autoAbilities()))
+                .where('X', states(getCasingState()).setMinGlobalLimited(8)
+                        .or(abilities(MultiblockAbility.INPUT_ENERGY)
+                                .setMinGlobalLimited(1)
+                                .setMaxGlobalLimited(2)
+                                .setPreviewCount(1))
+                        .or(abilities(MultiblockAbility.IMPORT_ITEMS)
+                                .setMinGlobalLimited(1)
+                                .setMaxGlobalLimited(1)
+                                .setPreviewCount(1))
+                        .or(abilities(MultiblockAbility.EXPORT_ITEMS)
+                                .setMinGlobalLimited(1)
+                                .setMaxGlobalLimited(2)
+                                .setPreviewCount(1))
+                        .or(abilities(MultiblockAbility.EXPORT_FLUIDS)
+                                .setMinGlobalLimited(1)
+                                .setMaxGlobalLimited(1)
+                                .setPreviewCount(1))
+                        .or(abilities(MultiblockAbility.MAINTENANCE_HATCH)
+                                .setMinGlobalLimited(1)
+                                .setMaxGlobalLimited(1)
+                                .setPreviewCount(1)))
                 .where('Y', selfPredicate())
                 .where('#', air())
                 .build();
@@ -98,15 +121,44 @@ public class MetaTileEntityMeatProcessingStation extends RecipeMapMultiblockCont
     }
 
     @Override
-    protected ICubeRenderer getFrontOverlay() {
-        return GTFOClientHandler.SLICER_OVERLAY;
+    protected void updateFormedValid() {
+        isInCleanroom = isInCleanroom();
+        if (!isInCleanroom) {
+            this.recipeMapWorkable.setWorkingEnabled(false);
+            return;
+        }
+        super.updateFormedValid();
     }
 
-    @Override
-    public void renderMetaTileEntity(CCRenderState renderState, Matrix4 translation, IVertexOperation[] pipeline) {
-        super.renderMetaTileEntity(renderState, translation, pipeline);
-        this.getFrontOverlay().renderOrientedState(renderState, translation, pipeline, this.getFrontFacing(),
-                this.recipeMapWorkable.isActive(), this.recipeMapWorkable.isWorkingEnabled());
+    private boolean isInCleanroom() {
+        if (getWorld() == null || getWorld().isRemote) {
+            return true;
+        }
+
+        BlockPos center = getPos();
+        int radius = 2;
+        int casingCount = 0;
+        int totalBlocks = 0;
+
+        for (int x = -radius; x <= radius; x++) {
+            for (int y = -radius; y <= radius; y++) {
+                for (int z = -radius; z <= radius; z++) {
+                    if (x == 0 && y == 0 && z == 0) continue;
+
+                    BlockPos checkPos = center.add(x, y, z);
+                    IBlockState state = getWorld().getBlockState(checkPos);
+                    Block block = state.getBlock();
+
+                    totalBlocks++;
+
+                    if (block instanceof BlockCleanroomCasing) {
+                        casingCount++;
+                    }
+                }
+            }
+        }
+
+        return casingCount >= totalBlocks * 0.5;
     }
 
     @Override
@@ -117,6 +169,12 @@ public class MetaTileEntityMeatProcessingStation extends RecipeMapMultiblockCont
             textList.add((new TextComponentTranslation("gregtech.multiblock.invalid_structure")).setStyle((new Style())
                     .setColor(TextFormatting.RED).setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, tooltip))));
         } else {
+            if (!isInCleanroom) {
+                textList.add(new TextComponentTranslation("gregtechfoodoption.multiblock.meat_processing.not_in_cleanroom")
+                        .setStyle(new Style().setColor(TextFormatting.RED)));
+                return;
+            }
+
             if (!this.recipeMapWorkable.isWorkingEnabled()) {
                 textList.add(TextComponentUtil.translationWithColor(TextFormatting.GRAY, "gregtech.multiblock.work_paused"));
             } else if (this.recipeMapWorkable.isActive()) {
@@ -216,18 +274,12 @@ public class MetaTileEntityMeatProcessingStation extends RecipeMapMultiblockCont
     }
 
     @Override
-    public void receiveCustomData(int dataId, PacketBuffer buf) {
-        super.receiveCustomData(dataId, buf);
-        if (dataId == 600) {
-        }
-    }
-
-    @Override
     public void addInformation(ItemStack stack, @Nullable World player, List<String> tooltip, boolean advanced) {
         super.addInformation(stack, player, tooltip, advanced);
         tooltip.add(I18n.format("gregtechfoodoption.machine.meat_processing_station.tooltip.1"));
         tooltip.add(I18n.format("gregtechfoodoption.machine.meat_processing_station.tooltip.2"));
         tooltip.add(I18n.format("gregtechfoodoption.machine.meat_processing_station.tooltip.3"));
+        tooltip.add(I18n.format("gregtechfoodoption.machine.meat_processing_station.tooltip.4"));
     }
 
     private class MeatProcessingWorkable extends MultiblockRecipeLogic {
