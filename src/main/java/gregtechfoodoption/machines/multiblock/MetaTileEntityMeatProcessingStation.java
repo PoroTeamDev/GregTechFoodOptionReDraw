@@ -1,11 +1,13 @@
 package gregtechfoodoption.machines.multiblock;
 
+import static gregtech.common.blocks.BlockGlassCasing.CasingType.CLEANROOM_GLASS;
 import static gregtechfoodoption.block.GTFOMetaBlocks.GTFO_METAL_CASING;
 
 import java.util.List;
 
 import javax.annotation.Nullable;
 
+import gregtech.common.blocks.MetaBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.resources.I18n;
@@ -82,9 +84,9 @@ public class MetaTileEntityMeatProcessingStation extends RecipeMapMultiblockCont
     @Override
     protected BlockPattern createStructurePattern() {
         return FactoryBlockPattern.start(RelativeDirection.FRONT, RelativeDirection.UP, RelativeDirection.RIGHT)
-                .aisle("XXX", "YXX", "XXX")
-                .aisle("XXX", "X#X", "XXX")
-                .aisle("XXX", "XXX", "XXX")
+                .aisle("XXXXXX", "XZZZZX", "XXXXXX")
+                .aisle("YXXXXX", "X####X", "XXXXXX")
+                .aisle("XXXXXX", "XZZZZX", "XXXXXX")
                 .where('X', states(getCasingState()).setMinGlobalLimited(8)
                         .or(abilities(MultiblockAbility.INPUT_ENERGY)
                                 .setMinGlobalLimited(1)
@@ -108,6 +110,7 @@ public class MetaTileEntityMeatProcessingStation extends RecipeMapMultiblockCont
                                 .setPreviewCount(1)))
                 .where('Y', selfPredicate())
                 .where('#', air())
+                .where('Z', states(MetaBlocks.TRANSPARENT_CASING.getState(CLEANROOM_GLASS)))
                 .build();
     }
 

@@ -1254,6 +1254,7 @@ metaitem.component.carcass_pork.name=Pork Carcass
 metaitem.component.carcass_chicken.name=Chicken Carcass
 metaitem.component.carcass_mutton.name=Mutton Carcass
 metaitem.component.carcass_rabbit.name=Rabbit Carcass
+metaitem.component.trout_skeleton.name=Trout Skeleton
 
 gtfo.config.gtfoButcheryConfig.enableButcheryMode=Enable Butchery Mode
 gtfo.config.gtfoButcheryConfig.enableButcheryMode.tooltip=Animals drop carcasses instead of standard drops when killed with a Butchery Knife
@@ -1269,3 +1270,19 @@ gregtechfoodoption.machine.meat_processing_station.tooltip.4=§7Requires a §9Cl
 recipemap.meat_processing.name=Meat Processing
 gregtechfoodoption.multiblock.meat_processing.tooltip.count=Processed Carcasses: %d
 gregtechfoodoption.multiblock.meat_processing.not_in_cleanroom=§cMust be built inside a Cleanroom!
+
+metaitem.food.apple_hardened_candy.name=Apple Hardened Candy
+metaitem.butchery.fish.trout.name=Trout
+metaitem.butchery.fish.trout_fillet.name=Trout Fillet
+metaitem.butchery.fish.trout_skeleton.name=Trout Skeleton
+metaitem.butchery.fish.red_caviar.name=Red Caviar
+metaitem.butchery.fish.cod_fillet.name=Cod Fillet
+metaitem.butchery.fish.cod_skeleton.name=Cod Fillet
+metaitem.butchery.fish.sea_caviar.name=Sea Caviar
+metaitem.butchery.fish.salmon_fillet.name=Salmon Fillet
+metaitem.butchery.fish.salmon_skeleton.name=Salmon Skeleton
+metaitem.butchery.fish.sturgeon.name=Sturgeon
+metaitem.butchery.fish.sturgeon_fillet.name=Sturgeon Fillet
+metaitem.butchery.fish.sturgeon_skeleton.name=Sturgeon Fillet
+metaitem.butchery.fish.black_caviar.name=Black Caviar
+metaitem.butchery.fish.black_caviar.tooltip=Very. Very very. Expensive.

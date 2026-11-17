@@ -424,6 +424,7 @@ public class GTFOMetaItem extends MetaItem<GTFOMetaItem.GTFOMetaValueItem> imple
     public static MetaItem<?>.MetaValueItem VIBRANT_CAPLET;
     public static MetaItem<?>.MetaValueItem SANDWICH_VIBRANT;
 
+
     //butchery update
     public static MetaItem<?>.MetaValueItem CARCASS;
     public static MetaItem<?>.MetaValueItem CARCASS_BEEF;
@@ -431,6 +432,26 @@ public class GTFOMetaItem extends MetaItem<GTFOMetaItem.GTFOMetaValueItem> imple
     public static MetaItem<?>.MetaValueItem CARCASS_CHICKEN;
     public static MetaItem<?>.MetaValueItem CARCASS_MUTTON;
     public static MetaItem<?>.MetaValueItem CARCASS_RABBIT;
+
+    public static MetaItem<?>.MetaValueItem TROUT;
+    public static MetaItem<?>.MetaValueItem TROUT_FILLET;
+    public static MetaItem<?>.MetaValueItem TROUT_SKELETON;
+    public static MetaItem<?>.MetaValueItem RED_CAVIAR;
+
+    public static MetaItem<?>.MetaValueItem COD_FILLET;
+    public static MetaItem<?>.MetaValueItem COD_SKELETON;
+    public static MetaItem<?>.MetaValueItem SEA_CAVIAR;
+
+    public static MetaItem<?>.MetaValueItem SALMON_FILLET;
+    public static MetaItem<?>.MetaValueItem SALMON_SKELETON;
+
+    public static MetaItem<?>.MetaValueItem STURGEON;
+    public static MetaItem<?>.MetaValueItem STURGEON_FILLET;
+    public static MetaItem<?>.MetaValueItem STURGEON_SKELETON;
+    public static MetaItem<?>.MetaValueItem BLACK_CAVIAR;
+
+    public static MetaItem<?>.MetaValueItem APPLE_HARDENED_CANDY;
+
 
     public GTFOMetaItem() {
         super((short) 0);
@@ -1405,7 +1426,53 @@ public class GTFOMetaItem extends MetaItem<GTFOMetaItem.GTFOMetaValueItem> imple
                 .setMaxStackSize(16);
         CARCASS_RABBIT = addItem(365, "component.carcass_rabbit").blacklistKitchen()
                 .setMaxStackSize(16);
+
+        //Trout
+        TROUT = addItem(367, "butchery.fish.trout")
+                .addComponents(new GTFOFoodStats(2, 0.5f).nutrients(0f, 0f, 0f, 1f, 0f))
+                .addOreDict("listShellfish")
+                .addOreDict("foodFish");
+        TROUT_FILLET = addItem(368, "butchery.fish.trout_fillet")
+                .addComponents(new GTFOFoodStats(2, 0.2f).nutrients(0f, 0f, 0f, 0.3f, 0f))
+                .addOreDict("foodFish");
+        TROUT_SKELETON = addItem(369, "butchery.fish.trout_skeleton").blacklistKitchen();
+        RED_CAVIAR = addItem(370, "butchery.fish.red_caviar")
+                .addComponents(new GTFOFoodStats(2, 0.3f).nutrients(0f, 0f, 0f, 0.3f, 0f))
+                .addOreDict("foodFish");
+        //Cod
+        COD_FILLET = addItem(371, "butchery.fish.cod_fillet")
+                .addComponents(new GTFOFoodStats(2, 0.2f).nutrients(0f, 0f, 0f, 0.3f, 0f))
+                .addOreDict("foodFish");
+        COD_SKELETON = addItem(372, "butchery.fish.cod_skeleton").blacklistKitchen();
+        SEA_CAVIAR = addItem(373, "butchery.fish.sea_caviar")
+                .addComponents(new GTFOFoodStats(2, 0.3f).nutrients(0f, 0f, 0f, 0.3f, 0f))
+                .addOreDict("foodFish");
+        //Salmon
+        SALMON_FILLET = addItem(374, "butchery.fish.salmon_fillet")
+                .addComponents(new GTFOFoodStats(2, 0.2f).nutrients(0f, 0f, 0f, 0.3f, 0f))
+                .addOreDict("foodFish");
+        SALMON_SKELETON = addItem(375, "butchery.fish.salmon_skeleton").blacklistKitchen();
+
+        STURGEON = addItem(376, "butchery.fish.sturgeon")
+                .addComponents(new GTFOFoodStats(2, 0.5f).nutrients(0f, 0f, 0f, 1f, 0f))
+                .addOreDict("listShellfish")
+                .addOreDict("foodFish");
+        STURGEON_FILLET = addItem(377, "butchery.fish.sturgeon_fillet")
+                .addComponents(new GTFOFoodStats(2, 0.2f).nutrients(0f, 0f, 0f, 0.3f, 0f))
+                .addOreDict("foodFish");
+        STURGEON_SKELETON = addItem(378, "butchery.fish.sturgeon_skeleton").blacklistKitchen();
+        BLACK_CAVIAR = addItem(379, "butchery.fish.black_caviar")
+                .addComponents(new GTFOFoodStats(2, 0.6f).nutrients(0f, 0f, 0f, 0.4f, 0f))
+                .addOreDict("foodFish");
+
+
+        APPLE_HARDENED_CANDY = ((GTFOMetaValueItem) addItem(400, "food.apple_hardened_candy")
+                .addComponents(new GTFOFoodStats(4, 0.4f)
+                        .setEatingDuration(1280)
+                        .nutrients(0f, 1f, 0f, 0f, 0f)))
+                .setEncShining();
     }
+
 
     @Override
     public ItemStack getContainerItem(ItemStack stack) {
@@ -1430,6 +1497,7 @@ public class GTFOMetaItem extends MetaItem<GTFOMetaItem.GTFOMetaValueItem> imple
         }
         return null;
     }
+
 
     @Nonnull
     public CreativeTabs[] getCreativeTabs() {
@@ -1575,6 +1643,11 @@ public class GTFOMetaItem extends MetaItem<GTFOMetaItem.GTFOMetaValueItem> imple
                     }
                 }
             }
+        }
+        //adding glowing for items
+        public GTFOMetaValueItem setEncShining() {
+            this.hasEnchantmentSheen = true;
+            return this;
         }
     }
 }

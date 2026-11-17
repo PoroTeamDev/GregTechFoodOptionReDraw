@@ -2,6 +2,7 @@ package gregtechfoodoption.recipe.chain;
 
 import static gregtechfoodoption.item.GTFOMetaItem.*;
 import static gregtechfoodoption.machines.GTFOTileEntities.MEAT_PROCESSING_STATION;
+import static net.minecraft.item.ItemFishFood.FishType.COD;
 
 import gregtech.api.items.toolitem.ItemGTTool;
 
@@ -37,8 +38,7 @@ public class ButcheryChain {
                         new ItemStack(Items.BONE, 4),
                         GTFOMaterialHandler.Fat.getItemStack(8),
                         new ItemStack(Items.BEEF, 2 * meatMult),
-                        GTFOMaterialHandler.ToughMeat.getItemStack(4),
-                        ItemStack.EMPTY)
+                        GTFOMaterialHandler.ToughMeat.getItemStack(4))
                 .fluidOutputs(GTFOMaterialHandler.Blood.getFluid(1000))
                 .buildAndRegister();
 
@@ -54,8 +54,7 @@ public class ButcheryChain {
                         new ItemStack(Items.BONE, 3),
                         GTFOMaterialHandler.Fat.getItemStack(10),
                         new ItemStack(Items.PORKCHOP, 2 * meatMult),
-                        GTFOMaterialHandler.ToughMeat.getItemStack(3),
-                        ItemStack.EMPTY)
+                        GTFOMaterialHandler.ToughMeat.getItemStack(3))
                 .fluidOutputs(GTFOMaterialHandler.Blood.getFluid(800))
                 .buildAndRegister();
 
@@ -68,11 +67,7 @@ public class ButcheryChain {
                         new ItemStack(Items.CHICKEN, 2 * meatMult),
                         new ItemStack(Items.FEATHER, 8),
                         new ItemStack(Items.BONE, 4),
-                        GTFOMaterialHandler.Fat.getItemStack(4),
-                        ItemStack.EMPTY,
-                        ItemStack.EMPTY,
-                        ItemStack.EMPTY,
-                        ItemStack.EMPTY)
+                        GTFOMaterialHandler.Fat.getItemStack(4))
                 .fluidOutputs(GTFOMaterialHandler.Blood.getFluid(300))
                 .buildAndRegister();
 
@@ -88,8 +83,7 @@ public class ButcheryChain {
                         new ItemStack(Items.BONE, 3),
                         GTFOMaterialHandler.Fat.getItemStack(8),
                         new ItemStack(Items.MUTTON, 2 * meatMult),
-                        GTFOMaterialHandler.ToughMeat.getItemStack(3),
-                        ItemStack.EMPTY)
+                        GTFOMaterialHandler.ToughMeat.getItemStack(3))
                 .fluidOutputs(GTFOMaterialHandler.Blood.getFluid(700))
                 .buildAndRegister();
 
@@ -102,12 +96,48 @@ public class ButcheryChain {
                         new ItemStack(Items.RABBIT, 2 * meatMult),
                         new ItemStack(Items.RABBIT_HIDE, 2),
                         new ItemStack(Items.BONE, 3),
-                        GTFOMaterialHandler.Fat.getItemStack(3),
-                        ItemStack.EMPTY,
-                        ItemStack.EMPTY,
-                        ItemStack.EMPTY,
-                        ItemStack.EMPTY)
+                        GTFOMaterialHandler.Fat.getItemStack(3))
                 .fluidOutputs(GTFOMaterialHandler.Blood.getFluid(200))
+                .buildAndRegister();
+
+        MEAT_PROCESSING_STATION.getRecipeMap().recipeBuilder()
+                .inputs(TROUT.getStackForm())
+                .duration(100)
+                .EUt(16)
+                .outputs(
+                        TROUT_FILLET.getStackForm(2),
+                        TROUT_SKELETON.getStackForm(1))
+                .chancedOutput(RED_CAVIAR, 1000, 500)
+                .buildAndRegister();
+
+        MEAT_PROCESSING_STATION.getRecipeMap().recipeBuilder()
+                .inputs(new ItemStack(Items.FISH, 1, 0))
+                .duration(100)
+                .EUt(16)
+                .outputs(
+                        COD_FILLET.getStackForm(2),
+                        COD_SKELETON.getStackForm(1))
+                .chancedOutput(SEA_CAVIAR, 1500, 1000)
+                .buildAndRegister();
+
+        MEAT_PROCESSING_STATION.getRecipeMap().recipeBuilder()
+                .inputs(new ItemStack(Items.FISH, 1, 1))
+                .duration(100)
+                .EUt(16)
+                .outputs(
+                        SALMON_FILLET.getStackForm(2),
+                        SALMON_SKELETON.getStackForm(1))
+                .chancedOutput(RED_CAVIAR, 1000, 500)
+                .buildAndRegister();
+
+        MEAT_PROCESSING_STATION.getRecipeMap().recipeBuilder()
+                .inputs(STURGEON.getStackForm())
+                .duration(100)
+                .EUt(16)
+                .outputs(
+                        STURGEON_FILLET.getStackForm(2),
+                        STURGEON_SKELETON.getStackForm(1))
+                .chancedOutput(BLACK_CAVIAR, 100, 100)
                 .buildAndRegister();
 
         ModHandler.addShapelessRecipe("gtfo_butchery_beef_hand",

@@ -252,6 +252,12 @@ public class PurpleDrinkChain {
                 .EUt(5)
                 .duration(200)
                 .buildAndRegister();
+        COMPRESSOR_RECIPES.recipeBuilder()
+                .inputs(APPLE_HARD_CANDY.getStackForm(64))
+                .outputs(APPLE_HARDENED_CANDY.getStackForm())
+                .EUt(2048)
+                .duration(2000)
+                .buildAndRegister();
         BENDER_RECIPES.recipeBuilder()
                 .inputs(HardCandyPlate.getItemStack())
                 .circuitMeta(1)
